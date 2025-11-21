@@ -1,4 +1,4 @@
-# Optimisation Challenge
+# **DROPBLOX** Optimisation Challenge
 
 
 
@@ -49,3 +49,4 @@ Brick speed is calculated by ax^2 + bx + c, where x is the current score of the 
 * **canvas\_height**: *(integer)* Height of canvas (making it too high may create formatting problems)
 * **canvas\_width**: *(integer)* Width of canvas
 * **canvas\_colour**: *(hexadecimal colour value)* Colour of canvas background
+

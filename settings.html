@@ -14,138 +14,192 @@
         <a id="back-to-game" class="btn btn-secondary">Back to Game</a>
     </nav>
 
-    <div class="container my-2">
-        <form id="settings-form" class="mx-auto" style="max-width:50%;">
+    <div class="container my-4">
+        <form id="settings-form" class="mx-auto" style="max-width: 50%;">
+
             <h1 class="text-center mb-4 fw-bold">DROPBLOX Settings</h1>
-            <hr>
-            <h3>High Score: <span id="high-score">0</span></h3>
-            <button type="button" id="reset-high-score" class="btn btn-danger flex-fill">Reset High Score</button>
 
             <hr>
-            <h3>Player Settings</h3>
 
-
-            <div>
-                <label for="block_size">Player Block Size</label>
-                <input type="number" class="form-control" id="block_size" min="5" value="30">
-            </div>
-
-            <div>
-                <label for="initial_number_of_lives">Number of Lives</label>
-                <input type="number" class="form-control" id="initial_number_of_lives" min="1" value="30">
-            </div>
-
-            <div>
-                <label for="player_color">Player Colour</label>
-                <input type="color" class="form-control form-control-color" id="player_colour" value="#000000">
-            </div>
-
-            <h5>Player Speed Curve (Advanced)</h5>
-
-            <div>
-                <label for="initial_block_speed">Initial Player Speed <b>(c)</b></label>
-                <input type="number" class="form-control" id="initial_block_speed" min="1" value="5">
-            </div>
-
-            <div>
-                <label for="block_velocity_linear">Player Velocity Linear Factor <b>(b)</b></label>
-                <input type="number" class="form-control" id="block_velocity_linear" min="0" step="0.01" value="0.01">
-            </div>
-
-            <div>
-                <label for="block_velocity_square">Player Velocity Square Factor <b>(a)</b></label>
-                <input type="number" class="form-control" id="block_velocity_square" min="0" step="0.001" value="0.001">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="m-0">High Score: <span id="high-score">0</span></h3>
+                <button type="button" id="reset-high-score" class="btn btn-danger">Reset High Score</button>
             </div>
 
             <hr>
 
-            <h3>Brick Settings</h3>
+            <h3 class="mb-3">Player Settings</h3>
 
-            <div>
-                <label for="brick_count">Number of Bricks</label>
-                <input type="number" class="form-control" id="brick_count" min="2" value="5">
+            <div class="row mb-4">
+
+                <div class="col">
+                    <label for="block_size">Player Block Size</label>
+                    <input type="number" class="form-control" id="block_size" min="5">
+                </div>
+
+                <div class="col">
+                    <label for="initial_number_of_lives">Number of Lives</label>
+                    <input type="number" class="form-control" id="initial_number_of_lives" min="1">
+                </div>
+
+                <div class="col">
+                    <label for="life_regeneration_rate">Life Regeneration Rate</label>
+                    <input type="number" class="form-control" id="life_regeneration_rate" min="1">
+                </div>
+
             </div>
 
-            <div>
-                <label for="brick_height">Brick Height</label>
-                <input type="number" class="form-control" id="brick_height" min="5" value="40">
+            <label for="wall_mode">Wall Mode</label>
+            <select id="wall_mode" class="form-control">
+              <option value="1">Loop (Open)</option>
+              <option value="0">Clamp (Closed)</option>
+            </select>
+
+
+            <h5 class="mt-4">Player Speed Curve (Advanced)</h5>
+
+            <div class="row mb-4">
+                <div class="col">
+                    <label for="initial_block_speed">Initial Player Speed (c)</label>
+                    <input type="number" class="form-control" id="initial_block_speed" min="1">
+                </div>
+
+                <div class="col">
+                    <label for="block_velocity_linear">Player Velocity Linear (b)</label>
+                    <input type="number" class="form-control" id="block_velocity_linear" min="0" step="0.01">
+                </div>
+
+                <div class="col">
+                    <label for="block_velocity_square">Player Velocity Square (a)</label>
+                    <input type="number" class="form-control" id="block_velocity_square" min="0" step="0.001">
+                </div>
             </div>
 
-            <div>
-                <label for="gap_size">Gap Size Between Bricks</label>
-                <input type="number" class="form-control" id="gap_size" min="1" value="5">
+            <hr>
+
+            <h3 class="mb-3">Brick Settings</h3>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="brick_count">Number of Bricks</label>
+                    <input type="number" class="form-control" id="brick_count" min="2">
+                </div>
+
+                <div class="col">
+                    <label for="brick_height">Brick Height</label>
+                    <input type="number" class="form-control" id="brick_height" min="5">
+                </div>        
             </div>
 
-            <div>
-                <label for="number_of_gaps">Number of Gaps</label>
-                <input type="number" class="form-control" id="number_of_gaps" min="1" value="5">
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="gap_size">Gap Size Between Bricks</label>
+                    <input type="number" class="form-control" id="gap_size" min="1">
+                </div>
+
+                <div class="col">
+                    <label for="number_of_gaps">Number of Gaps</label>
+                    <input type="number" class="form-control" id="number_of_gaps" min="1">
+                </div>
             </div>
 
-            <div>
-                <label for="brick_color">Brick Colour</label>
-                <input type="color" class="form-control form-control-color" id="brick_colour" value="#000000">
-            </div>
 
             <h5>Brick Speed Curve (Advanced)</h5>
+            <label class="form-text text-muted mb-3">
+                The speed curve is defined as: <b>ax<sup>2</sup> + bx + c</b>, where <b>x</b> is the current score.
+            </label>
 
-            <label class="form-text text-muted mb-3">The speed curve is defined as: <b>ax<sup>2</sup>+bx+c</b>, where <b>x</b> is the current score of the game.</label>
-            
-            <div>
-                <label for="initial_brick_velocity">Initial Brick Velocity <b>(c)</b></label>
-                <input type="number" class="form-control" id="initial_brick_velocity" min="0" step="0.1" value="1">
-            </div>
+            <div class="row mb-4">
+                <div class="col">
+                    <label for="initial_brick_velocity">Initial Brick Velocity (c)</label>
+                    <input type="number" class="form-control" id="initial_brick_velocity" min="0" step="0.1">
+                </div>
 
-            <div>
-                <label for="brick_velocity_linear">Brick Velocity Linear Factor <b>(b)</b></label>
-                <input type="number" class="form-control" id="brick_velocity_linear" min="0" step="0.01" value="0.01">
-            </div>
+                <div class="col">
+                    <label for="brick_velocity_linear">Brick Velocity Linear (b)</label>
+                    <input type="number" class="form-control" id="brick_velocity_linear" min="0" step="0.01">
+                </div>
 
-            <div>
-                <label for="brick_velocity_square">Brick Velocity Square Factor <b>(a)</b></label>
-                <input type="number" class="form-control" id="brick_velocity_square" min="0" step="0.001" value="0.001">
+                <div class="col">
+                    <label for="brick_velocity_square">Brick Velocity Square (a)</label>
+                    <input type="number" class="form-control" id="brick_velocity_square" min="0" step="0.001">
+                </div>
             </div>
 
             <hr>
-            <h3>Personalisation</h3>
+
+            <h3 class="mb-2">Personalisation</h3>
             <label class="form-text text-muted mb-3">Make the game truly yours.</label>
 
-            <div>
+            <div class="mb-3">
                 <label for="display_name">Display Name</label>
                 <input type="text" class="form-control" id="display_name">
             </div>
 
-            <hr>
+            <div class="row mb-4">
+                <div class="col">
+                    <label for="canvas_width">Canvas Width</label>
+                    <input type="text" class="form-control" id="canvas_width">
+                </div>
 
-            <div id="game-link-container">
-                <label for="brick_color">Game URL With Settings:</label>
-                <textarea id="generated-url" class="form-control mb-2" readonly rows="6"
-                style="font-family: monospace; background-color: #222; color: #ddd; resize: none; overflow: hidden;"></textarea>
+                <div class="col">
+                    <label for="canvas_height">Canvas Height</label>
+                    <input type="text" class="form-control" id="canvas_height">
+                </div>
+            </div>
+
+            <div class="row mb-4">
+
+                <div class="col">
+                    <label for="player_colour">Player Colour</label>
+                    <input type="color" class="form-control form-control-color" id="player_colour">
+                </div>
+
+                <div class="col">
+                    <label for="brick_colour">Brick Colour</label>
+                    <input type="color" class="form-control form-control-color" id="brick_colour">
+                </div>
+
+                <div class="col">
+                    <label for="canvas_colour">Canvas Colour</label>
+                    <input type="color" class="form-control form-control-color" id="canvas_colour">
+                </div>
 
             </div>
 
-            <div class="d-flex gap-2 mb-3">
+            <hr>
+
+            <div class="mb-3">
+                <label for="generated-url">Game URL With Settings:</label>
+                <textarea id="generated-url"
+                          class="form-control"
+                          readonly
+                          rows="8"
+                          style="font-family: monospace; background-color: #222; color: #ddd; resize: none; overflow: hidden;">
+                </textarea>
+            </div>
+
+            <div class="d-flex gap-2 mb-4">
                 <button type="button" class="btn btn-secondary flex-fill" id="copy-link">Copy Link</button>
                 <button type="button" class="btn btn-danger flex-fill" id="reset">Reset Settings</button>
             </div>
 
         </form>
-
     </div>
 
-    <div id="toast" 
-     class="position-fixed bottom-0 end-0 bg-dark text-white p-2 px-3 rounded"
-     style="display:none; z-index:100;">
+    <div id="toast"
+         class="position-fixed bottom-0 end-0 bg-dark text-white p-2 px-3 rounded"
+         style="display: none; z-index: 1000;">
     </div>
-
 
 <footer class="mt-auto py-3 bg-light text-center border-top">
     <div class="container">
-        <span class="text-muted">Made by David MMXXV</span>
+        <span class="text-muted">Made by me MMXXV</span>
     </div>
 </footer>
 
+
 <script>
-var brick_count, initial_block_speed, block_size, brick_height, gap_size, initial_brick_velocity, brick_velocity_linear, brick_velocity_square, display_name;
 const params = new URLSearchParams(window.location.search);
 
 document.getElementById("back-to-game").href = `index.html?${params.toString()}`;
@@ -167,22 +221,28 @@ const default_settings = {
     display_name: "DROPBLOX",
     player_colour: "#212529",
     brick_colour: "#212539",
+    canvas_colour: "#D0D0D0",
     number_of_gaps: 1,
-    initial_number_of_lives: 1
+    initial_number_of_lives: 1,
+    canvas_height: 500,
+    canvas_width: 900,
+    life_regeneration_rate: 0,
+    wall_mode: 1,
 };
 
 const keys = Object.keys(default_settings);
 
-function setInitial(id, parameter_name) {
+document.querySelectorAll("input, select").forEach(input => {
+    const id = input.id;
+    if (!id) return;
+    set_initial_value(id, id);
+});
+
+
+function set_initial_value(id, parameter_name) {
     const element = document.getElementById(id);
     element.value = params.get(parameter_name) || default_settings[parameter_name];
 }
-
-document.querySelectorAll("input").forEach(input => {
-    const id = input.id;
-    if (!id) return;
-    setInitial(id, id);
-});
 
 function display_toast(message, timeout = 1500) {
 
@@ -216,12 +276,10 @@ function update_settings() {
     });
 }
 
-// Attach automatic updating to all inputs
-document.querySelectorAll("#settings-form input").forEach(element => {
+document.querySelectorAll("#settings-form input, #settings-form select").forEach(element => {
     element.addEventListener("input", update_settings);
 });
 
-// Reset settings
 document.getElementById("reset").addEventListener("click", () => {
     if (confirm("Are you sure you want to reset settings to default?")) {
         keys.forEach(key => {document.getElementById(key).value = default_settings[key];});
@@ -231,7 +289,6 @@ document.getElementById("reset").addEventListener("click", () => {
     
 });
 
-// Reset high score
 document.getElementById("reset-high-score").addEventListener("click", () => {
     if (confirm("Are you sure you want to reset your high score?")) {
         localStorage.setItem("high_score", 0);

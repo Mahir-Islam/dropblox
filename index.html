@@ -37,14 +37,6 @@
     </div>
 
 <script>
-const canvas = document.getElementById("c");
-const ctx = canvas.getContext("2d");
-const [canvas_width, canvas_height] = [canvas.width, canvas.height];
-
-let brick_velocity, brick_y, x, y, vx, score, high_score, gap_index, brick_width, number_of_lives, block_speed;
-var initial_brick_velocity, brick_velocity_linear, brick_velocity_square, block_size, initial_block_speed,  brick_count, brick_height, display_name, player_colour, brick_colour, lives, brick_gaps;
-let gaps = [];
-
 const default_settings = {
     brick_count: 5,
     initial_block_speed: 5,
@@ -60,8 +52,16 @@ const default_settings = {
     player_colour: "#212529",
     brick_colour: "#212539",
     number_of_gaps: 1,
-    initial_number_of_lives: 1
+    initial_number_of_lives: 1,
+    canvas_height: 500,
+    canvas_width: 900,
+    canvas_colour: "#D0D0D0",
+    life_regeneration_rate: 0,
+    wall_mode:1,
 };
+
+let brick_velocity, brick_y, x, y, vx, score, high_score, gap_index, brick_width, number_of_lives, block_speed;
+let gaps = [];
 
 const keys = Object.keys(default_settings);
 const params = new URLSearchParams(window.location.search);
@@ -82,17 +82,19 @@ keys.forEach(key => {
     queryParams.set(key, window[key]);
 });
 
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+
+[canvas.width, canvas.height, canvas.style.backgroundColor] = [canvas_width, canvas_height, canvas_colour];
+
 document.getElementById("settings-link").href = `settings.html?${queryParams.toString()}`;
 
-const score_element = document.getElementById("score");
-const high_score_element = document.getElementById("high-score");
-const title_element = document.getElementById("title");
-const lives_element = document.getElementById("lives");
+const [score_element, high_score_element, title_element, lives_element] = 
+    ["score", "high-score", "title", "lives"].map(id => document.getElementById(id));
 
 high_score = parseInt(localStorage.getItem("high_score")) || 0;
 high_score_element.textContent = high_score;
-number_of_lives = initial_number_of_lives; 
-lives_element.textContent = initial_number_of_lives;
+lives_element.textContent = number_of_lives = initial_number_of_lives;
 
 const [game_over_message, title_message] = ["PRESS ENTER OR SPACE TO PLAY",display_name];
 
@@ -151,7 +153,7 @@ document.addEventListener("keyup", e => {
 function draw() {
 
     // Change position
-    x = (x + vx + canvas_width) % canvas_width;
+    x = wall_mode ? (x + vx + canvas_width) % canvas_width : Math.min(Math.max(x + vx, 0), canvas_width - block_size);
     brick_y += brick_velocity;
 
     // Draw Block
@@ -177,6 +179,8 @@ function check_collision() {
         score_element.textContent = ++score;
         brick_velocity = brick_velocity_square*(score**2) + brick_velocity_linear*score + initial_brick_velocity;
         block_speed = block_velocity_square*(score**2) + block_velocity_linear*score + initial_block_speed;
+
+        lives_element.textContent = (number_of_lives > 0 && score % life_regeneration_rate === 0) ? ++number_of_lives : lives_element.textContent;
 
         if (score > high_score) {
             high_score = score;

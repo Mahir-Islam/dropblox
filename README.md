@@ -13,8 +13,8 @@ Here are the parameters for the settings (removed from index.html since it was u
 ##### Player Settings
 
 * **block\_size**: *(float)* Player object size
-* **block\_speed**: *(float)* Player object speed
-* **loopable**: *(boolean)* Whether you can loop around the canvas
+* **block speed**: *(float)* Player object speed
+* **wall\_mode**: *(integer as Boolean \[0,1])* Whether you can loop around the canvas
 * **initial\_number\_of\_lives**: *(integer)* How many lives are in each game
 * **life\_regeneration\_rate**: *(integer)* How many rounds before restoring a life
 
@@ -49,4 +49,3 @@ Brick speed is calculated by ax^2 + bx + c, where x is the current score of the 
 * **canvas\_height**: *(integer)* Height of canvas (making it too high may create formatting problems)
 * **canvas\_width**: *(integer)* Width of canvas
 * **canvas\_colour**: *(hexadecimal colour value)* Colour of canvas background
-

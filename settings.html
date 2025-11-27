@@ -9,15 +9,14 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-
-    <nav class="navbar navbar-light bg-light px-3 mb-4">
+    <nav class="navbar navbar-light bg-light px-3 border-bottom">
         <a id="back-to-game" class="btn btn-secondary">Back to Game</a>
     </nav>
 
-    <div class="container my-4">
+    <div class="container my-2">
         <form id="settings-form" class="mx-auto" style="max-width: 50%;">
 
-            <h1 class="text-center mb-4 fw-bold">DROPBLOX Settings</h1>
+            <h1 class="text-center fw-bold">DROPBLOX Settings</h1>
 
             <hr>
 
@@ -198,7 +197,7 @@
     </div>
 </footer>
 
-
+<script src="default_settings.js"></script>
 <script>
 const params = new URLSearchParams(window.location.search);
 
@@ -206,29 +205,6 @@ document.getElementById("back-to-game").href = `index.html?${params.toString()}`
 
 const high_score_element = document.getElementById("high-score");
 high_score_element.textContent = parseInt(localStorage.getItem("high_score")) || 0;
-
-const default_settings = {
-    brick_count: 5,
-    initial_block_speed: 5,
-    block_velocity_linear: 0.1,
-    block_velocity_square: 0,
-    block_size: 30,
-    brick_height: 40,
-    gap_size: 5,
-    initial_brick_velocity: 2,
-    brick_velocity_linear: 0.01,
-    brick_velocity_square: 0.001,
-    display_name: "DROPBLOX",
-    player_colour: "#212529",
-    brick_colour: "#212539",
-    canvas_colour: "#D0D0D0",
-    number_of_gaps: 1,
-    initial_number_of_lives: 1,
-    canvas_height: 500,
-    canvas_width: 900,
-    life_regeneration_rate: 0,
-    wall_mode: 1,
-};
 
 const keys = Object.keys(default_settings);
 
@@ -263,8 +239,7 @@ function update_settings() {
 
     const game_url = `index.html?${queryParams.toString()}`;
     
-    document.getElementById("back-to-game").href = game_url;
-    document.getElementById("generated-url").value = game_url;
+    document.getElementById("back-to-game").href = document.getElementById("generated-url").value = game_url;
 
     document.getElementById("copy-link").addEventListener("click", (e) => {
         e.preventDefault();
@@ -291,8 +266,7 @@ document.getElementById("reset").addEventListener("click", () => {
 
 document.getElementById("reset-high-score").addEventListener("click", () => {
     if (confirm("Are you sure you want to reset your high score?")) {
-        localStorage.setItem("high_score", 0);
-        high_score_element.textContent = 0;
+        localStorage.setItem("high_score", high_score_element.textContent = 0);
         display_toast("High score reset!");
     }
 });

@@ -22,9 +22,9 @@
 </head>
 <body>
     <div class="container py-2">
-        <h1 id="title" class="text-center mb-4 fw-bold">DROPBLOX</h1>
+        <h1 id="title" class="text-center fw-bold">DROPBLOX</h1>
 
-        <div class="d-flex justify-content-center gap-5 my-3">
+        <div class="d-flex justify-content-center gap-5">
             <h3>Score: <span id="score">0</span></h3>
             <h3>High Score: <span id="high-score">0</span></h3>
             <h3>
@@ -36,29 +36,8 @@
         <h3>Lives <span id="lives">1</span></h3>
     </div>
 
+<script src="default_settings.js"></script>
 <script>
-const default_settings = {
-    brick_count: 5,
-    initial_block_speed: 5,
-    block_velocity_linear: 0.1,
-    block_velocity_square: 0,
-    block_size: 30,
-    brick_height: 40,
-    gap_size: 5,
-    initial_brick_velocity: 2,
-    brick_velocity_linear: 0.01,
-    brick_velocity_square: 0.001,
-    display_name: "DROPBLOX",
-    player_colour: "#212529",
-    brick_colour: "#212539",
-    number_of_gaps: 1,
-    initial_number_of_lives: 1,
-    canvas_height: 500,
-    canvas_width: 900,
-    canvas_colour: "#D0D0D0",
-    life_regeneration_rate: 0,
-    wall_mode:1,
-};
 
 let brick_velocity, brick_y, x, y, vx, score, high_score, gap_index, brick_width, number_of_lives, block_speed;
 let gaps = [];
@@ -94,7 +73,7 @@ const [score_element, high_score_element, title_element, lives_element] =
 
 high_score = parseInt(localStorage.getItem("high_score")) || 0;
 high_score_element.textContent = high_score;
-lives_element.textContent = number_of_lives = initial_number_of_lives;
+lives_element.textContent = number_of_lives = Math.max(Math.floor(initial_number_of_lives), 1);
 
 const [game_over_message, title_message] = ["PRESS ENTER OR SPACE TO PLAY",display_name];
 
@@ -111,24 +90,20 @@ function gap_indices(n = 1) {
 
 function start_game() {
 
-    lives_element.textContent = number_of_lives = initial_number_of_lives;
+    lives_element.textContent = number_of_lives = Math.max(Math.floor(initial_number_of_lives), 1);
     block_speed = initial_block_speed;
 
     // Canvas and player data
-    x = canvas_width/2;
-    y = canvas_height-block_size;
-    vx = 0;
+    [x, y] = [canvas_width/2, canvas_height-block_size];
+    vx = brick_y = score = 0;
 
-    // Brick data
-    brick_y = 0
     brick_width = (canvas_width / brick_count) - gap_size;
     gaps = gap_indices(number_of_gaps);
     brick_velocity = initial_brick_velocity;
 
-    // Scorekeeping
-    score = 0;
     score_element.textContent = score;
     title_element.textContent = title_message
+
 }
 
 function die() {
@@ -153,7 +128,7 @@ document.addEventListener("keyup", e => {
 function draw() {
 
     // Change position
-    x = wall_mode ? (x + vx + canvas_width) % canvas_width : Math.min(Math.max(x + vx, 0), canvas_width - block_size);
+    x = wall_mode ? (x + vx + canvas_width - block_size) % (canvas_width - block_size) : Math.min(Math.max(x + vx, 0), canvas_width - block_size);
     brick_y += brick_velocity;
 
     // Draw Block
@@ -183,8 +158,7 @@ function check_collision() {
         lives_element.textContent = (number_of_lives > 0 && score % life_regeneration_rate === 0) ? ++number_of_lives : lives_element.textContent;
 
         if (score > high_score) {
-            high_score = score;
-            high_score_element.textContent = high_score;
+            high_score_element.textContent = high_score = score;
             localStorage.setItem("high_score", high_score);
         }
     }
@@ -197,7 +171,7 @@ function check_collision() {
 
             const hit =
                 x < bx + brick_width &&
-                x + block_size > bx &&
+                x + block_size/2 > bx &&
                 y < by + brick_height &&
                 y + block_size > by;
 
@@ -208,6 +182,8 @@ function check_collision() {
             } 
         }
     }
+
+
 }
 
 function loop() {

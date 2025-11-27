@@ -2,7 +2,8 @@
 
 
 
-Can I make a game with as few bytes as possible? I present **DROPBLOX** (not to be confused with Dropbox or Roblox), a simple arcade-style game where you must dodge as many bricks as possible. I want to create a game that looks good, gives you a lot of choice, shareable and is fun, while also having clean, readable code. My target is to crunch it down to 10kb.
+Can I make a game with as few bytes as possible? I present **DROPBLOX** (not to be confused with Dropbox or Roblox), a simple arcade-style game where you must dodge as many bricks as possible. I want to create a game that looks good, gives you a lot of choice, shareable and is fun, while also having clean, readable code. My target is to crunch it down to 10kb. **Current Milestone**: 16.9kb.
+
 
 
 
@@ -58,3 +59,4 @@ Similarly to the Player Speed Curve, the brick speed is also calculated by ax^2 
 * **canvas\_height**: *(integer)* Height of canvas (making it too high may create formatting problems)
 * **canvas\_width**: *(integer)* Width of canvas
 * **canvas\_colour**: *(hexadecimal colour value)* Colour of canvas background
+

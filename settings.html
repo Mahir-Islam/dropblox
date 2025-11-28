@@ -237,7 +237,7 @@ function update_settings() {
         queryParams.append(key, window[key]);
     });
 
-    const game_url = `index.html?${queryParams.toString()}`;
+    const game_url = "https://mahir-islam.github.io/dropblox/"+`index.html?${queryParams.toString()}`;
     
     document.getElementById("back-to-game").href = document.getElementById("generated-url").value = game_url;
 
@@ -277,3 +277,4 @@ update_settings();
 
 </body>
 </html>
+

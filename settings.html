@@ -200,6 +200,7 @@
 <script src="default_settings.js"></script>
 <script>
 const params = new URLSearchParams(window.location.search);
+const website = "https://mahir-islam.github.io/dropblox";
 
 document.getElementById("back-to-game").href = `index.html?${params.toString()}`;
 
@@ -237,7 +238,7 @@ function update_settings() {
         queryParams.append(key, window[key]);
     });
 
-    const game_url = `index.html?${queryParams.toString()}`;
+    const game_url = `${website}/index.html?${queryParams.toString()}`;
     
     document.getElementById("back-to-game").href = document.getElementById("generated-url").value = game_url;
 

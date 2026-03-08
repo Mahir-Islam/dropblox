@@ -52,7 +52,6 @@ keys.forEach(key => {
         if (typeof default_settings[key] === "number") {
             val = key === "brick_count" ? parseInt(val) : parseFloat(val);
         }
-        // else keep as string
         window[key] = val;
     } else {
         window[key] = default_settings[key];
@@ -106,13 +105,21 @@ function start_game() {
 
 }
 
-function die() {
-    brick_velocity = 0;
-    title_element.textContent = game_over_message;
+
+function lose_life(die = false) {
+    brick_y = 0;
+    lives_element.textContent = --number_of_lives;
+    if (number_of_lives <= 0 || die) {
+        brick_velocity = 0;
+        title_element.textContent = game_over_message;
+    }
 }
 
-die();
+lose_life(true);
 
+canvas.addEventListener("pointerdown", () => {
+    if (brick_velocity === 0) start_game();
+});
 
 document.addEventListener("keydown", e => {
     if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") vx = block_speed;
@@ -127,14 +134,25 @@ document.addEventListener("keyup", e => {
 
 function draw() {
 
-    // Change position
-    x = wall_mode ? (x + vx + canvas_width - block_size) % (canvas_width - block_size) : Math.min(Math.max(x + vx, 0), canvas_width - block_size);
-    brick_y += brick_velocity;
+    // Wall Collision Code
+    switch (wall_mode) {
+        case 0:
+            x = Math.min(Math.max(x + vx, 0), canvas_width - block_size); break;
+        case 1:
+            x = (x + vx + canvas_width - block_size) % (canvas_width - block_size); break;
+        case 2:
+            x = Math.min(Math.max(x + vx, 0), canvas_width - block_size);
+            if (x <= 0 || x >= canvas_width - block_size) {
+                x = canvas_width/2;
+                lose_life();
+            } break;
+    }
 
     // Draw Block
     ctx.fillStyle = player_colour;
     ctx.clearRect(0, 0, canvas_width, canvas_height);
     ctx.fillRect(x, y, block_size, block_size);
+    brick_y += brick_velocity;
 
     // Draw Bricks
     ctx.fillStyle = brick_colour;
@@ -176,9 +194,7 @@ function check_collision() {
                 y + block_size > by;
 
             if (hit) {
-                brick_y = 0;
-                lives_element.textContent = --number_of_lives;
-                if (number_of_lives == 0) die();
+                lose_life();
             } 
         }
     }

@@ -52,6 +52,7 @@
             <select id="wall_mode" class="form-control">
               <option value="1">Loop (Open)</option>
               <option value="0">Clamp (Closed)</option>
+              <option value="2">Lava (Dangerous Wall)</option>
             </select>
 
 
@@ -138,12 +139,12 @@
             <div class="row mb-4">
                 <div class="col">
                     <label for="canvas_width">Canvas Width</label>
-                    <input type="text" class="form-control" id="canvas_width">
+                    <input type="number" class="form-control" id="canvas_width">
                 </div>
 
                 <div class="col">
                     <label for="canvas_height">Canvas Height</label>
-                    <input type="text" class="form-control" id="canvas_height">
+                    <input type="number" class="form-control" id="canvas_height">
                 </div>
             </div>
 
@@ -199,10 +200,12 @@
 
 <script src="default_settings.js"></script>
 <script>
-const params = new URLSearchParams(window.location.search);
-const website = "https://mahir-islam.github.io/dropblox";
 
-document.getElementById("back-to-game").href = `index.html?${params.toString()}`;
+const params = new URLSearchParams(window.location.search);
+const back = document.getElementById("back-to-game");
+const urlbox = document.getElementById("generated-url");
+
+back.href = `index.html?${params.toString()}`;
 
 const high_score_element = document.getElementById("high-score");
 high_score_element.textContent = parseInt(localStorage.getItem("high_score")) || 0;
@@ -211,48 +214,31 @@ const keys = Object.keys(default_settings);
 
 document.querySelectorAll("input, select").forEach(input => {
     const id = input.id;
-    if (!id) return;
-    set_initial_value(id, id);
+    document.getElementById(id).value = params.get(id) || default_settings[id];
 });
 
-
-function set_initial_value(id, parameter_name) {
-    const element = document.getElementById(id);
-    element.value = params.get(parameter_name) || default_settings[parameter_name];
-}
+toast_element = document.getElementById("toast");
 
 function display_toast(message, timeout = 1500) {
 
-    document.getElementById("toast").innerText = message;
-    document.getElementById("toast").style.display = "block";
-    setTimeout(() => {
-        document.getElementById("toast").style.display = "none";
-    }, timeout);
+    toast_element.textContent = message;
+    toast_element.style.display = "block";
+    setTimeout(() => {toast_element.style.display = "none";}, timeout);
 }
 
 function update_settings() {
     const queryParams = new URLSearchParams();
-    
-    keys.forEach(key => {
-        window[key] = document.getElementById(key).value;
-        queryParams.append(key, window[key]);
-    });
-
-    const game_url = `${website}/index.html?${queryParams.toString()}`;
-    
-    document.getElementById("back-to-game").href = document.getElementById("generated-url").value = game_url;
-
-    document.getElementById("copy-link").addEventListener("click", (e) => {
-        e.preventDefault();
-        const textarea = document.getElementById("generated-url");
-        textarea.select();
-        textarea.setSelectionRange(0, 99999);
-        navigator.clipboard.writeText(textarea.value);
-        display_toast("Copied to clipboard!");
-    });
+    for(const key of keys) queryParams.append(key,document.getElementById(key).value);
+    back.href = urlbox.value = `index.html?${queryParams.toString()}`;
 }
 
-document.querySelectorAll("#settings-form input, #settings-form select").forEach(element => {
+document.getElementById("copy-link").addEventListener("click", (e) => {
+        e.preventDefault();
+        navigator.clipboard.writeText(urlbox.value);
+        display_toast("Copied to clipboard!");
+    });
+
+document.querySelectorAll("#settings-form :is(input,select)").forEach(element => {
     element.addEventListener("input", update_settings);
 });
 
